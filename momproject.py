@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-st.title("📊 Store Category Hours Processor")
+st.title("📊 Schedule Summary")
 
 # Upload Excel file
 uploaded_file = st.file_uploader("Upload your Excel file", type=["xlsx"])
@@ -40,4 +40,5 @@ if uploaded_file is not None:
         file_name="sheet1_output.txt",
         mime="text/plain"
     )
+
 
