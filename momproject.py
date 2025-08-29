@@ -15,24 +15,25 @@ if uploaded_file is not None:
     df = df.iloc[:, [1, 4, 5, 6, 7]]   # B=1, E=4, F=5, G=6, H=7
     df.columns = ["Store", "Category", "SectionSize", "Footage", "Hours"]
 
-    # Remove unwanted categories
-    df = df[~df["Category"].isin(["New Items", "Maintenance"])]
+    # Filtered out rows for display
+    filtered_group = group[~group["Category"].isin(["New Items", "Maintenance"])]
 
     output_lines = []
     results_for_excel = []
     for store, group in df.groupby("Store"):
+        # Categories to display
         categories = [
-            f" {row['Category']} {row['SectionSize']} {row['Footage']},"
-            for _, row in group.iterrows()
+        f"{row['Category']} {row['SectionSize']} {row['Footage']} ft,"
+        for _, row in filtered_group.iterrows()
         ]
         total_hours = group["Hours"].sum()
-        line = f"{store}\t " + " ".join(categories) + f" Total Hours - {total_hours +4}\t"
+        line = f"{store}\t " + " ".join(categories) + f" Total Hours - {total_hours}\t"
         output_lines.append(line)
         
         # Build one row per store for Excel
         results_for_excel.append({
             "Store": store,
-            "Summary": " ".join(categories) + f" | Total Hours - {total_hours + 4}"
+            "Summary": " ".join(categories) + f" | Total Hours - {total_hours}"
         })
 
     # Show results on the webpage
@@ -62,6 +63,7 @@ if uploaded_file is not None:
         file_name="sheet1_output.xlsx",
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
+
 
 
 
