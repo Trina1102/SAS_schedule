@@ -19,14 +19,21 @@ if uploaded_file is not None:
     df = df[~df["Category"].isin(["New Items", "Maintenance"])]
 
     output_lines = []
+    results_for_excel = []
     for store, group in df.groupby("Store"):
         categories = [
             f" {row['Category']} {row['SectionSize']} {row['Footage']},"
             for _, row in group.iterrows()
         ]
         total_hours = group["Hours"].sum()
-        line = f"{store}\t " + "".join(categories) + f" Total Hours - {total_hours +4}\t"
+        line = f"{store}\t " + " ".join(categories) + f" Total Hours - {total_hours +4}\t"
         output_lines.append(line)
+        
+        # Build one row per store for Excel
+        results_for_excel.append({
+            "Store": store,
+            "Summary": ",  ".join(categories) + f" | Total Hours - {total_hours + 4}"
+        })
 
     # Show results on the webpage
     st.subheader("Formatted Results")
@@ -41,6 +48,9 @@ if uploaded_file is not None:
         file_name="sheet1_output.txt",
         mime="text/plain"
     )
+    # Create DataFrame for Excel
+    results_df = pd.DataFrame(results_for_excel)
+    
     # Download as Excel file
     excel_buffer = io.BytesIO()
     with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
@@ -52,6 +62,7 @@ if uploaded_file is not None:
         file_name="sheet1_output.xlsx",
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
+
 
 
 
