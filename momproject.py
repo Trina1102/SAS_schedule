@@ -21,7 +21,7 @@ if uploaded_file is not None:
     output_lines = []
     for store, group in df.groupby("Store"):
         categories = [
-            f"{row['Category']} {row['SectionSize']} {row['Footage']}, "
+            f" {row['Category']} {row['SectionSize']} {row['Footage']},"
             for _, row in group.iterrows()
         ]
         total_hours = group["Hours"].sum()
@@ -52,6 +52,7 @@ if uploaded_file is not None:
         file_name="sheet1_output.xlsx",
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
+
 
 
 
