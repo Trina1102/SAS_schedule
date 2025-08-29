@@ -20,7 +20,7 @@ if uploaded_file is not None:
     output_lines = []
     for store, group in df.groupby("Store"):
         categories = [
-            f"{row['Category']} {row['SectionSize']} {row['Footage']},"
+            f"{row['Category']} {row['SectionSize']} {row['Footage']}, "
             for _, row in group.iterrows()
         ]
         total_hours = group["Hours"].sum()
@@ -40,5 +40,17 @@ if uploaded_file is not None:
         file_name="sheet1_output.txt",
         mime="text/plain"
     )
+    # Download as Excel file
+    excel_buffer = io.BytesIO()
+    with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
+        results_df.to_excel(writer, index=False, sheet_name="Summary")
+
+    st.download_button(
+        label="📥 Download Results as Excel",
+        data=excel_buffer.getvalue(),
+        file_name="sheet1_output.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+
 
 
