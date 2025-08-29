@@ -15,12 +15,12 @@ if uploaded_file is not None:
     df = df.iloc[:, [1, 4, 5, 6, 7]]   # B=1, E=4, F=5, G=6, H=7
     df.columns = ["Store", "Category", "SectionSize", "Footage", "Hours"]
 
-    # Filtered out rows for display
-    filtered_group = group[~group["Category"].isin(["New Items", "Maintenance"])]
-
     output_lines = []
     results_for_excel = []
     for store, group in df.groupby("Store"):
+       # Filtered out rows for display
+        filtered_group = group[~group["Category"].isin(["New Items", "Maintenance"])]
+
         # Categories to display
         categories = [
         f"{row['Category']} {row['SectionSize']} {row['Footage']} ft,"
@@ -63,6 +63,7 @@ if uploaded_file is not None:
         file_name="sheet1_output.xlsx",
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
+
 
 
 
