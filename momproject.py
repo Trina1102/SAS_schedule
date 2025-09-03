@@ -33,7 +33,7 @@ if uploaded_file is not None:
         # Build one row per store for Excel
         results_for_excel.append({
             "Store": store,
-            "Summary": " ".join(categories) + f" | Total Hours - {total_hours}"
+            "Summary": " ".join(categories) + f"  Total Hours - {total_hours}"
         })
 
     # Show results on the webpage
@@ -63,6 +63,7 @@ if uploaded_file is not None:
         file_name="sheet1_output.xlsx",
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
+
 
 
 
