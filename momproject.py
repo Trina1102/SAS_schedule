@@ -23,7 +23,7 @@ if uploaded_file is not None:
 
         # Categories to display
         categories = [
-        f"{row['Category']} {row['SectionSize']} {row['Footage']} ft,"
+        f"{row['Category']} {row['SectionSize']} {row['Footage']} ,"
         for _, row in filtered_group.iterrows()
         ]
         total_hours = group["Hours"].sum()
@@ -63,6 +63,7 @@ if uploaded_file is not None:
         file_name="sheet1_output.xlsx",
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
+
 
 
 
